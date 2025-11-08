@@ -8,15 +8,9 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController _characterControl;
 
     private Vector2 _moveInput;
-    private Vector2 _lookInput;
 
     [Header("Movement Values")]
     [SerializeField] private float _walkSpeed = 3f;
-
-    [Header("Camera Look")]
-    [SerializeField] private Transform cameraHolder;
-    [SerializeField] private float mouseSensitivity = 2f;
-    private float _xRotation;
 
     [Header("Animator")]
     [SerializeField] private Animator animator;
@@ -36,25 +30,14 @@ public class PlayerMovement : MonoBehaviour
         // Movement input
         _inputActions.Player.Move.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
         _inputActions.Player.Move.canceled += ctx => _moveInput = Vector2.zero;
-
-        // Camera look
-        _inputActions.Player.Look.performed += ctx => _lookInput = ctx.ReadValue<Vector2>();
-        _inputActions.Player.Look.canceled += ctx => _lookInput = Vector2.zero;
     }
 
     private void OnEnable() => _inputActions.Enable();
     private void OnDisable() => _inputActions.Disable();
 
-    private void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-
     private void Update()
     {
         MoveCharacter();
-        LookAround();
         UpdateAnimatorParameters();
     }
 
@@ -85,19 +68,5 @@ public class PlayerMovement : MonoBehaviour
 
         if (debugParameters)
             Debug.Log($"H: {horizontal:F2}, V: {vertical:F2}");
-    }
-
-    private void LookAround()
-    {
-        float mouseX = _lookInput.x * mouseSensitivity;
-        float mouseY = _lookInput.y * mouseSensitivity;
-
-        // Vertical camera rotation
-        _xRotation -= mouseY;
-        _xRotation = Mathf.Clamp(_xRotation, -80f, 80f);
-        cameraHolder.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
-
-        // Horizontal player rotation
-        transform.Rotate(Vector3.up * mouseX);
     }
 }
