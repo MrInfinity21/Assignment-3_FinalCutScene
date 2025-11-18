@@ -10,24 +10,17 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 _moveInput;
 
     [Header("Movement Values")]
-    [SerializeField] private float _walkSpeed = 3f;
+    [SerializeField] private float walkSpeed = 3f;
 
     [Header("Animator")]
     [SerializeField] private Animator animator;
-
-    [Header("Idle Threshold")]
-    [SerializeField, Tooltip("Minimum velocity to trigger movement in Blend Tree")]
-    private float movementThreshold = 0.01f;
-
-    [Header("Debug")]
-    [SerializeField] private bool debugParameters = false;
 
     private void Awake()
     {
         _characterControl = GetComponent<CharacterController>();
         _inputActions = new InputSystem_Actions();
 
-        // Movement input
+        // Listen for movement input
         _inputActions.Player.Move.performed += ctx => _moveInput = ctx.ReadValue<Vector2>();
         _inputActions.Player.Move.canceled += ctx => _moveInput = Vector2.zero;
     }
@@ -38,35 +31,28 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         MoveCharacter();
-        UpdateAnimatorParameters();
+        UpdateAnimation();
     }
 
     private void MoveCharacter()
     {
-        // Movement relative to player
-        Vector3 moveDirection = transform.right * _moveInput.x + transform.forward * _moveInput.y;
-        Vector3 velocity = moveDirection * _walkSpeed;
+        Vector3 moveDirection =
+            transform.right * _moveInput.x +
+            transform.forward * _moveInput.y;
 
-        // Move character
-        _characterControl.Move(velocity * Time.deltaTime);
+        _characterControl.Move(moveDirection * walkSpeed * Time.deltaTime);
     }
 
-    private void UpdateAnimatorParameters()
+    private void UpdateAnimation()
     {
-        // Convert velocity to local space for Blend Tree
-        Vector3 localVelocity = transform.InverseTransformDirection(
-            new Vector3(_moveInput.x * _walkSpeed, 0, _moveInput.y * _walkSpeed)
-        );
+        // Update directional movement
+        animator.SetFloat("Horizontal", _moveInput.x);
+        animator.SetFloat("Vertical", _moveInput.y);
 
-        // Apply threshold to prevent Idle jitter
-        float horizontal = Mathf.Abs(localVelocity.x) < movementThreshold ? 0f : localVelocity.x;
-        float vertical = Mathf.Abs(localVelocity.z) < movementThreshold ? 0f : localVelocity.z;
+        // Calculate speed magnitude (0 = idle, 1 = full movement)
+        float speed = _moveInput.magnitude;
 
-        // Update Animator
-        animator.SetFloat("Horizontal", horizontal, 0.1f, Time.deltaTime);
-        animator.SetFloat("Vertical", vertical, 0.1f, Time.deltaTime);
-
-        if (debugParameters)
-            Debug.Log($"H: {horizontal:F2}, V: {vertical:F2}");
+        // Update speed for transitions
+        animator.SetFloat("Speed", speed);
     }
 }

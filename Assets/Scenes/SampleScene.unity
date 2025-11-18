@@ -294,7 +294,6 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
-  - component: {fileID: 330585548}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -412,6 +411,7 @@ MonoBehaviour:
   m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
+  m_Version: 2
   m_TaaSettings:
     m_Quality: 3
     m_FrameInfluence: 0.1
@@ -419,22 +419,6 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
-  m_Version: 2
---- !u!114 &330585548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 330585543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee888dee61fa58f4d9b4b840493823ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
-  target: {fileID: 1567945195}
-  offset: {x: 0, y: 3, z: -5}
-  smoothSpeed: 5
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -545,23 +529,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Version: 4
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
   m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
-  m_RenderingLayersMask:
-    serializedVersion: 0
-    m_Bits: 1
-  m_ShadowRenderingLayersMask:
-    serializedVersion: 0
-    m_Bits: 1
-  m_Version: 4
-  m_LightLayerMask: 1
-  m_ShadowLayerMask: 1
-  m_RenderingLayers: 1
-  m_ShadowRenderingLayers: 1
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,10 +618,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee9e9c15a1b9c5d438f23223b8c0f73c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  _walkSpeed: 3
+  walkSpeed: 3
   animator: {fileID: 1567945194}
-  movementThreshold: 0.1
-  debugParameters: 1
 --- !u!143 &1567945193
 CharacterController:
   m_ObjectHideFlags: 0
@@ -672,11 +648,6 @@ CharacterController:
 --- !u!95 &1567945194 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 3130778081025570356, guid: 5cd1909fa49ba3e4d8216259ac15ea1e, type: 3}
-  m_PrefabInstance: {fileID: 92923871}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1567945195 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4191104978881085720, guid: 5cd1909fa49ba3e4d8216259ac15ea1e, type: 3}
   m_PrefabInstance: {fileID: 92923871}
   m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
